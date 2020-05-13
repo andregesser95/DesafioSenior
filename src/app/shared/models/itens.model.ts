@@ -1,5 +1,4 @@
-import { Data } from '@angular/router';
-
+// Interface de itens para a construção do formulário e base de dados.
 export interface IItens {
     codigo: string;
     nomeItem: string;
@@ -8,10 +7,11 @@ export interface IItens {
     preco: number;
     perecivel: boolean;
     dataValidade: Date;
-    dataFabricacao: Data;
+    dataFabricacao: Date;
     actions: Array<string>;
 }
 
+// classe Itens com implementação da interface de Itens.
 export class Itens implements IItens{
     codigo: string;
     nomeItem: string;
@@ -20,6 +20,6 @@ export class Itens implements IItens{
     preco: number;
     perecivel: boolean;
     dataValidade: Date;
-    dataFabricacao: Data;
+    dataFabricacao: Date;
     actions: Array<string>;
 }

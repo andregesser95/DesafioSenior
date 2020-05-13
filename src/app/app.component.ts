@@ -9,6 +9,7 @@ import { PoMenuItem } from '@po-ui/ng-components';
 })
 export class AppComponent {
 
+	//Objeto de contrução do Menu com os itens apresentados nele.
 	readonly menus: Array<PoMenuItem> = [
 		{
 			label: 'Home',

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ListagemItensComponent } from './listagem-itens.component';
 import { CadastroItensComponent } from './cadastro-itens/cadastro-itens.component';
 
+// Gerenciador de rotas dos programas referentes ao cadastro de itens e listagem.
 const routes: Routes = [
     {
         path: '',

@@ -8,6 +8,7 @@ import { ListagemItensComponent } from './listagem-itens.component';
 import { CadastroItensComponent } from './cadastro-itens/cadastro-itens.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
+// Módulo dos programas de cadastro e listagem dos itens.
 @NgModule({
   declarations: [
     ListagemItensComponent,

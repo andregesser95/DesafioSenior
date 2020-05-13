@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class ListagemItensComponent implements OnInit {
 
   @ViewChild('modalExclusao') modalExclusao: PoModalComponent;
+
   cancelaExclusao: PoModalAction;
   confirmaExclusao: PoModalAction;
 
@@ -39,9 +40,11 @@ export class ListagemItensComponent implements OnInit {
 
   private setComponentes() {
 
+    // Ações dos botões de confirmação de exclusão dos itens.
     this.confirmaExclusao = { action: () => this.onConfirmaExclusao(), label: 'Sim' };
     this.cancelaExclusao = { action: () => this.onCancelaExclusao(), label: 'Não' };
 
+    // Botões prinipais da tela de Listagem
     this.acoesListagem = [
       {
         label: 'Adicionar Item',
@@ -56,6 +59,7 @@ export class ListagemItensComponent implements OnInit {
       }
     ]
 
+    //Navegador das páginas.
     this.breadcrumbLista = {
       items: [
         { label: 'Home', link: '/' },
@@ -63,15 +67,17 @@ export class ListagemItensComponent implements OnInit {
       ]
     }
 
+    //Configuração do campo de busca da tela de listagem.
     this.configFiltro = {
       placeholder: 'Buscar',
       action: 'filtraNome',
       ngModel: 'codigoItem'
     }
 
+    //Definição das colunas da tabela de listagem dos itens.
     this.colunasTabela = [
       { property: 'codigo', type: 'string', label: 'Código', width: '10%' },
-      { property: 'nomeItem', type: 'string', label: 'Nome', width: '40%' },
+      { property: 'nomeItem', type: 'string', label: 'Nome', width: '30%' },
       { property: 'unidadeMedida', type: 'string', label: 'Unid. Medida', width: '8%' },
       { property: 'quantidade', type: 'number', label: 'Quantidade', width: '8%' },
       { property: 'preco', type: 'currency', format: 'BRL', label: 'Preço', width: '10%' },
@@ -79,7 +85,8 @@ export class ListagemItensComponent implements OnInit {
       { property: 'dataValidade', type: 'date', format: 'dd/MM/yyyy', label: 'Validade', width: '8%' },
       { property: 'dataFabricacao', type: 'date', format: 'dd/MM/yyyy', label: 'Fabricação', width: '8%' },
       {
-        property: 'actions', type: 'icon', label: 'Ações', width: '8%',
+        //Na coluna de ações, são adicionados os botões de edição do registro, abaixo temos o botão editar.
+        property: 'actions', type: 'icon', label: 'Ações', width: '5%',
         icons: [
           {
             color: 'color-12',
@@ -93,6 +100,8 @@ export class ListagemItensComponent implements OnInit {
 
   }
 
+  /* Função chamada ao acionar o botão editar da linha do item que se deseja alterar, 
+     chamado a tela de cadastro e enviado o código que se quer alterar. */
   private editar(item: IItens) {
     this.router.navigate(['/cadastros/itens/editar', item.codigo]);
   }
@@ -102,7 +111,6 @@ export class ListagemItensComponent implements OnInit {
 
     if (selecionados.length > 1) {
       this.selecaoMultipla = true;
-      this.quantSelecionada = selecionados.length;
     }
 
     this.modalExclusao.open();
@@ -111,13 +119,11 @@ export class ListagemItensComponent implements OnInit {
   private onConfirmaExclusao(): void {
     this.modalExclusao.close();
     this.removeRegistro();
-    this.quantSelecionada = 0;
     this.selecaoMultipla = false;
   }
 
   private onCancelaExclusao(): void {
     this.modalExclusao.close();
-    this.quantSelecionada = 0;
     this.selecaoMultipla = false;
   }
 
@@ -137,6 +143,7 @@ export class ListagemItensComponent implements OnInit {
     }
   }
 
+  //Função chamada pela configuração do campo de filtro que ao ter albuma informação busca pelo valod do código.
   filtraNome(): void {
     if (this.codigoItem.length > 0) {
       this.listaItens = this.listaItens.filter(item => item.codigo === this.codigoItem);
@@ -145,6 +152,7 @@ export class ListagemItensComponent implements OnInit {
     }
   }
 
+  //Carrega todos os dados adicionados no LocalStorage
   private carregar(): void {
     this.listaItens = this.itensService.buscaTodos();
     this.listaItens.forEach(item => item.actions = ['edit', 'copy'])

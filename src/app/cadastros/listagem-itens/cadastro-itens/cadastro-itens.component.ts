@@ -43,6 +43,7 @@ export class CadastroItensComponent implements OnInit {
 		this.carregar();
 	}
 
+	//Função que cria o formulario com os campos respectivos do LocalStorage. 
 	private criarFormulario() {
 		this.formPrincipal = this.fb.group({
 			codigo: ['', Validators.required],
@@ -60,17 +61,20 @@ export class CadastroItensComponent implements OnInit {
 
 		this.carregaUnidadesMedidas();
 
+		// Botões da tela de confirmação de saída da tela se salvar.
 		this.cancelarModal = { label: 'Não', action: this.fecharModal.bind(this) };
 		this.sairModal = { label: 'Sim', action: () => this.router.navigate(["/cadastros/itens"]) };
 
+		// Navegação das páginas
 		this.breadcrumbCadastro = {
 			items: [
 				{ label: 'Home', link: '/' },
 				{ label: 'Itens', action: () => this.verificaInteracaoFormulario(this.formPrincipal) },
-				{ label: this.buscaNomePagina() }
+				{ label: this.isPageEdit ? 'Editar' : 'Novo' }
 			]
 		}
 
+		// Botões principais da tela de cadastro de itens
 		this.acoesForm = [
 			{ label: 'Salvar', type: 'submit', action: this.salvarRegistro.bind(this), icon: 'po-icon-plus' },
 			{ label: 'Cancelar', action: this.verificaInteracaoFormulario.bind(this, this.formPrincipal) }
@@ -78,6 +82,8 @@ export class CadastroItensComponent implements OnInit {
 
 	}
 
+	/* Essafunção carrega as informações dos campos quando está em modo de Edição,
+	   que por meio do código recebido busca os dados do registro na basename. */
 	private carregar() {
 		let property;
 		let item: IItens;
@@ -95,14 +101,8 @@ export class CadastroItensComponent implements OnInit {
 		}
 	}
 
-	private buscaNomePagina(): string {
-		if (this.isPageEdit) {
-			return 'Editar';
-		} else {
-			return 'Novo'
-		}
-	}
-
+	/* Função que salva o registro na base e volta para a tela de listagem 
+	   que é atualizada já com o novo registro ou com a alteração realizada */
 	private salvarRegistro() {
 
 		if (!this.validacaoCampos()) {
@@ -120,6 +120,7 @@ export class CadastroItensComponent implements OnInit {
 		}
 	}
 
+	//Validação de preenchimento dos campos
 	private validacaoCampos() {
 		let isOk = true;
 		let today = new Date();
@@ -153,7 +154,7 @@ export class CadastroItensComponent implements OnInit {
 
 			if (!this.formPrincipal.controls['dataValidade'].value) {
 				this.poNotification.error('Data de validade deve ser informada!');
-				isOk = false;			
+				isOk = false;
 			} else {
 				let dataValidade = this.textoParaData(this.formPrincipal.controls['dataValidade'].value);
 				if (dataValidade && dataValidade < today) {
@@ -173,12 +174,14 @@ export class CadastroItensComponent implements OnInit {
 		return isOk;
 	}
 
+	//Converte a data que está em formato texto para Date.
 	private textoParaData(dataTexto) {
 		return new Date(dataTexto.split('-').map((item) => item));
 	}
 
+	//Verificação de manipulação do formulário
 	private verificaInteracaoFormulario(formPrincipal: FormGroup): void {
-		if (formPrincipal.dirty === true) {
+		if (formPrincipal.dirty) {
 			this.modalCancelar.open();
 		} else {
 			this.fecharModal();
@@ -190,6 +193,7 @@ export class CadastroItensComponent implements OnInit {
 		this.modalCancelar.close();
 	}
 
+	//Carrega as unidades de medida para o Array do campo Select, por meio de uma Enum.
 	private carregaUnidadesMedidas() {
 		for (var strUnidade in UnidMedidas) {
 			if (UnidMedidas.hasOwnProperty(strUnidade) && (isNaN(parseInt(strUnidade)))) {
@@ -199,6 +203,7 @@ export class CadastroItensComponent implements OnInit {
 		}
 	}
 
+	//Habilita/Desabilita o campo de Data de validade caso o checkbox Perecivel seja marcado/desmarcado.
 	habilitaValidade() {
 		if (!this.formPrincipal.controls['perecivel'].value) {
 			this.formPrincipal.patchValue({
@@ -209,6 +214,7 @@ export class CadastroItensComponent implements OnInit {
 		return this.formPrincipal.controls['perecivel'].value;
 	}
 
+	//Titulos do componente de Qauntidade de acordo com o que é selecionado no componente de unidade de medida.
 	carregaTitulos() {
 		switch (this.formPrincipal.controls['unidadeMedida'].value) {
 			case 'L':
@@ -225,6 +231,7 @@ export class CadastroItensComponent implements OnInit {
 
 }
 
+//Enum de unidades de Medida
 export enum UnidMedidas {
 	Litros = 'L',
 	Quilogramas = 'Kg',
