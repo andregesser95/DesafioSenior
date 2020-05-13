@@ -1,0 +1,52 @@
+<po-page-default 
+    [p-title]="isPageEdit ? 'Edição do Item' : 'Inclusão de Item'" 
+    [p-breadcrumb]="breadcrumbCadastro"
+    [p-actions]="acoesForm">
+
+    <div>
+        <form #form="ngForm" [formGroup]="formPrincipal">
+
+            <po-widget
+                class="po-md-12">
+
+                <div class="po-row">
+                    <po-input class="po-md-2" p-label="Código" formControlName="codigo" p-maxlength="10" [p-disabled]="isPageEdit" p-mask="9999999999"></po-input>
+                
+                    <po-input class="po-md-6" p-label="Nome do Item" formControlName="nomeItem" p-maxlength="50"></po-input>
+                </div>
+
+                <div class="po-row">
+                    <po-select class="po-md-3" p-label="Unid. Medida" [p-options]="unidadesMedidas" formControlName="unidadeMedida" (p-change)="carregaTitulos()"></po-select>
+
+                    <po-input class="po-md-2" [p-label]="tituloQuantidade" formControlName="quantidade"></po-input>
+
+                    <po-number class="po-md-2" p-label="Preço (R$)" formControlName="preco"></po-number>
+                    
+                    <po-checkbox class="po-md-3" p-label="Produto Perecível" formControlName="perecivel"></po-checkbox>
+                </div>
+
+                <div class="po-row">
+                    <po-datepicker class="po-md-3" p-label="Data de Fabricação" p-placeholder="Informe um Data" formControlName="dataFabricacao"></po-datepicker>
+                    
+                    <po-datepicker class="po-md-3" p-label="Data de Validade" p-placeholder="Informe um Data" formControlName="dataValidade" [p-disabled]="!habilitaValidade()"></po-datepicker>
+                </div>
+
+            </po-widget>
+
+        </form>
+    </div>
+
+</po-page-default>
+
+<po-modal
+    #modalCancelar
+    p-close
+    p-size="auto"
+    p-title="Cancelar"
+    [p-primary-action]="sairModal"
+    [p-secondary-action]="cancelarModal"
+>
+    <div class="po-font-text-large po-text-left">
+        Tem certeza que deseja cancelar suas alterações? Todos os dados não salvos serão perdidos.
+    </div>
+</po-modal>

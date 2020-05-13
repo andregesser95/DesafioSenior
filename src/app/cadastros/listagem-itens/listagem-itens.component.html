@@ -1,0 +1,34 @@
+<po-page-list
+    p-title="Itens Cadastrados"
+    [p-breadcrumb]="breadcrumbLista"
+    [p-filter]="configFiltro"
+    [p-actions]="acoesListagem">
+
+    <po-widget
+        class="po-md-12">
+
+        <po-table
+            p-checkbox="true"
+            p-hide-selecp-all="true"
+            [p-columns]="colunasTabela"
+            [p-items]="listaItens"
+            p-sort="true"
+            p-container>
+        </po-table>
+
+    </po-widget>
+
+</po-page-list>
+
+<po-modal #modalExclusao
+          p-close
+          p-size="auto"
+          p-title="Exclusão de Itens"
+          [p-primary-action]="confirmaExclusao"
+          [p-secondary-action]="cancelaExclusao">
+
+  <div class="po-fonp-texp-large po-texp-left">
+    Tem certeza que deseja remover este(s) registro(s)? A operação não poderá ser desfeita.
+  </div>
+
+</po-modal>

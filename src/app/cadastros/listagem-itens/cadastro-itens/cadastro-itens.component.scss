@@ -1,0 +1,19 @@
+po-widget {
+  padding: 0;
+}
+
+po-checkbox {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  margin-top: 20px;
+}
+
+@media (max-width: 480px) {
+  po-checkbox {
+    display: flex;
+    align-items: center;
+    margin-left: 0;
+    margin-top: 0;
+  }
+}
